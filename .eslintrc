@@ -10,12 +10,10 @@
     "browser": true,
     "node": true
   },
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react"],
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
-    "semi": 2,
+    "semi": [2, "never"],
     "no-console": 0,
     "prop-types": 0
   }

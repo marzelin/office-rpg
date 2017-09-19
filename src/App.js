@@ -1,27 +1,34 @@
-import React, { Component } from 'react';
-import { database } from './firebase';
-import Characters from './Characters';
-import './App.css';
+import React, { Component } from "react"
+import { database } from "./firebase"
+import Characters from "./Characters"
+import "./App.css"
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       characters: null
-    };
+    }
   }
 
   componentWillMount() {
-    database.ref('characters').orderByKey().on('value', (snapshot) => {
-      this.setState({
-        characters: snapshot.val()
-      });
-    });
+    database
+      .ref("characters")
+      .orderByChild("dexterity")
+      .limitToLast(10)
+      .on("value", snapshot => {
+        const characters = {}
+        snapshot.forEach(childSnap => {
+          characters[childSnap.key] = childSnap.val()
+        })
+        this.setState({
+          characters
+        })
+      })
   }
 
-
   render() {
-    const { characters } = this.state;
+    const { characters } = this.state
 
     return (
       <div className="App">
@@ -29,11 +36,11 @@ class App extends Component {
           <h2>Office RPG</h2>
         </div>
         <section className="Characters">
-          { characters && <Characters characters={characters} /> }
+          {characters && <Characters characters={characters} />}
         </section>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
